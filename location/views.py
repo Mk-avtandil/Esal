@@ -45,4 +45,3 @@ class DetailLeisureView(DetailView):
         }
 
         return render(request, '#', context)
-
