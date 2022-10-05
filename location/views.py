@@ -34,16 +34,12 @@ class ListLocationView(ListView):
 class DetailLocationView(DetailView):
     def get(self, request, pk, *args, **kwargs):
         location = Location.objects.get(id=pk)
-        regions = Region.objects.all()
-        region = Region.objects.get(location=location)
-        leisure = Leisure.objects.get(location=location)
-        images = Image.objects.filter(location=location)
         context = {
             'location': location,
-            'regions': regions,
-            'region': region,
-            'leisure': leisure,
-            'images': images
+            'regions': Region.objects.all(),
+            'region': Region.objects.get(location=location),
+            'leisure': Leisure.objects.get(location=location),
+            'images': Image.objects.filter(location=location)
         }
 
         return render(request, 'location/detail.html', context)
@@ -51,13 +47,11 @@ class DetailLocationView(DetailView):
 
 class DetailRegionView(DetailView):
     def get(self, request, slug, *args, **kwargs):
-        regions = Region.objects.all()
         region = Region.objects.get(slug=slug)
-        locations = Location.objects.filter(region=region)
         context = {
             'region': region,
-            'regions': regions,
-            'location': locations
+            'regions': Region.objects.all(),
+            'location': Location.objects.filter(region=region)
         }
 
         return render(request, 'location/detail_region.html', context)
@@ -66,12 +60,10 @@ class DetailRegionView(DetailView):
 class DetailLeisureView(DetailView):
     def get(self, request, slug, *args, **kwargs):
         leisure = Leisure.objects.get(slug=slug)
-        locations = Location.objects.filter(leisure=leisure)
-        regions = Region.objects.all()
         context = {
             'leisure': leisure,
-            'locations': locations,
-            'regions': regions
+            'locations': Location.objects.filter(leisure=leisure),
+            'regions': Region.objects.all()
         }
 
         return render(request, 'location/lesure_detail.html', context)
