@@ -22,6 +22,9 @@ class Leisure(models.Model):
     title = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100, primary_key=True)
 
+    def __str__(self) -> str:
+        return self.title
+
 
 class Location(models.Model):
     title = models.CharField(max_length=100)
@@ -30,7 +33,13 @@ class Location(models.Model):
     leisure = models.ForeignKey(Leisure, on_delete=models.CASCADE, related_name='location')
     difficulty = models.CharField(choices=DIFFICULTY, max_length=10)
 
+    def __str__(self) -> str:
+        return self.title
+
 
 class Image(models.Model):
-    location = models.ForeignKey(Location, on_delete=models.CASCADE)
+    location = models.ForeignKey(Location, on_delete=models.CASCADE, related_name='image')
     image = models.ImageField(upload_to='location')
+
+    def __str__(self) -> str:
+        return str(self.location)

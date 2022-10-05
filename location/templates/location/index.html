@@ -45,9 +45,9 @@
         <div class="card my-2">
           <img src="{% static 'location/img/2.jpg' %}" class="card-img-top" alt="...">
           <div class="card-body">
-            <h5 class="card-title">{{ loc[].title }}</h5>
-            <p class="card-text">{{ loc[location].description|truncatechars:255 }}</p>
-            <a href="{% url 'location' loc[0].id %}" class="btn btn-primary">Подробнее</a>
+            <h5 class="card-title">{{ loc.images }}</h5>
+            <p class="card-text">{{ loc}</p>
+            <a href="" class="btn btn-primary">Подробнее</a>
           </div>
         </div>
       </div>

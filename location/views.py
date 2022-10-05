@@ -1,7 +1,10 @@
+import itertools
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
+from django.db.models import Value, Avg
 
 from location.models import Location, Region, Leisure, Image
+
 
 
 class ListPostView(ListView):
@@ -18,15 +21,12 @@ class ListPostView(ListView):
 class ListLocationView(ListView):
     def get(self, request, *args, **kwargs):
         locations = Location.objects.all()
-        data = {}
-        for items in locations:
-            data['location'] = items
-            data['image'] = Image.objects.filter(location=items)
+        for location in locations:
+            location.images = location.image.all()
         regions = Region.objects.all()
         context = {
-            'locations': data,
+            'locations': locations,
             'regions': regions,
-
         }
         return render(request, 'location/index.html', context)
 
