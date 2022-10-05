@@ -1,8 +1,9 @@
 {% extends "location/base.html" %}
 {% load static %}
 {% block page_content %}
+<!--{{ locations }}-->
+<h2 class="my-2 text-primary">LATEST POSTS</h2>
 <div class="row">
-  <h2 class="my-2 text-primary">LATEST POSTS</h2>
   <div id="carouselExampleIndicators" class="carousel slide col-md-8" data-ride="carousel">
   <ol class="carousel-indicators  mx-0">
     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -31,55 +32,30 @@
   <div class="card-body">
     <h5 class="card-title">Special title treatment</h5>
     <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-    <a href="#" class="btn btn-primary">Подробнее</a>
+    <a href="#" class=" btn btn-primary">Подробнее</a>
   </div>
   </div>
 </div>
 
 <!-- Cards -->
-  <h2 class=" my-2 text-primary py-2">LOCATIONS</h2>
+  <h2 class=" text-primary mt-4">LOCATIONS</h2>
   <div class="row row-cols-1 row-cols-md-2 g-4">
-  <div class="col">
-    <div class="card">
-      <img src="{% static 'location/img/2.jpg' %}" class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-        <a href="#" class="btn btn-primary">Подробнее</a>
+    {% for loc in locations %}
+      <div class="col">
+        <div class="card my-2">
+          <img src="{% static 'location/img/2.jpg' %}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">{{ loc[].title }}</h5>
+            <p class="card-text">{{ loc[location].description|truncatechars:255 }}</p>
+            <a href="{% url 'location' loc[0].id %}" class="btn btn-primary">Подробнее</a>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-  <div class="col">
-    <div class="card">
-      <img src="{% static 'location/img/2.jpg' %}" class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-        <a href="#" class="btn btn-primary">Подробнее</a>
-      </div>
-    </div>
-  </div>
-  <div class="col">
-    <div class="card">
-      <img src="{% static 'location/img/2.jpg' %}" class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
-        <a href="#" class="btn btn-primary">Подробнее</a>
-      </div>
-    </div>
-  </div>
-  <div class="col">
-    <div class="card">
-      <img src="{% static 'location/img/2.jpg' %}" class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-        <a href="#" class="btn btn-primary">Подробнее</a>
-      </div>
-    </div>
-  </div>
+    {% endfor %}
 </div>
 
+<div class="row my-4">
+  <a href="#" class="col-md-12 btn btn-primary text-light">SHOW MORE</a>
+</div>
 
 {% endblock %}
