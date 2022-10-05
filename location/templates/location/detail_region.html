@@ -1,0 +1,24 @@
+{% extends "location/base.html" %}
+{% load static %}
+{% block page_content %}
+<div class="row my-3">
+    <div class="card col-md-7" style="border: none;">
+        <img src="{{ region.image.url }}">
+    </div>
+    <div class="card my-2 col-md-5" style="border: none;">
+        <h4>{{ region.title }}</h4>
+        <hr>
+        <h4><a target="_blank" href="https://www.google.com/maps/place/{{region.title}}/">Карта</a></р3>
+        <hr>
+        <h4><a target="_blank" href="https://ru.wikipedia.org/wiki/{{region.title}}">Wikipedia</a></h4>
+        <hr>
+        <img class="w-75" src="{{ region.image_map.url }}">
+    </div>
+    <div class="my-2 col-md-12">
+        <p class="card-text">{{ region.description }}</p>
+    </div>
+</div>
+
+
+
+{% endblock %}
