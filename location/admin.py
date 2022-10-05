@@ -8,3 +8,5 @@ admin.site.register(Image)
 admin.site.register(Location)
 admin.site.register(Region)
 admin.site.register(Leisure)
+
+# Register your models here.
