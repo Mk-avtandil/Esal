@@ -29,10 +29,10 @@ class DetailRegionView(DetailView):
         locations = Location.objects.filter(region=region)
         context = {
             'region': region,
-            'location': locations
+            'locations': locations
         }
 
-        return render(request, '#', context)
+        return render(request, 'templates/region.html', context)
 
 
 class DetailLeisureView(DetailView):
