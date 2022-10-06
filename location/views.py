@@ -10,23 +10,16 @@ from location.form import CreateLocationForm, CreateImageForm
 from location.models import Location, Region, Leisure, Image
 
 
-class CreatePostView(FormView, View):
+class CreatePostView(FormView, DetailView):
+    model = Location
+    form_class = CreateLocationForm
     def get(self, request, *args, **kwargs):
         location_form = CreateLocationForm()
-        # image_form = CreateImageForm()
-        user = request.user
         context = {
-            'user': user,
-            'location_form': location_form,
-            # 'image_form': image_form
+            'location_form': location_form
         }
+        print(location_form)
         return render(request, 'location/add_location.html', context)
-
-    def post(self, request, *args, **kwargs):
-        form = CreateLocationForm(request.POST)
-        if form.is_valid():
-            form.save()
-
 
 class ListPostView(ListView):
     def get(self, request, *args, **kwargs):

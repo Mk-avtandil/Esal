@@ -10,8 +10,17 @@ class CreateImageForm(forms.ModelForm):
 
 
 class CreateLocationForm(forms.ModelForm):
-
     class Meta:
         model = Location
         fields = ['title', 'description', 'leisure', 'region', 'difficulty']
+
+        widgets = {
+            'title': forms.TextInput(
+                attrs={'class': 'form-control'}
+            ),
+            'description': forms.Textarea(
+                attrs={'class': 'form-control'}
+            )
+        }
+
 
