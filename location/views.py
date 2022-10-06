@@ -1,9 +1,13 @@
 import itertools
+
+from django.contrib.auth import get_user_model
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from django.db.models import Value, Avg
-
 from location.models import Location, Region, Leisure, Image
+
+
+User = get_user_model()
 
 
 class ListPostView(ListView):
@@ -77,3 +81,14 @@ class DetailLeisureView(DetailView):
         }
 
         return render(request, 'location/lesure_detail.html', context)
+
+
+class Profile(DetailView):
+    def get(self, request, *args, **kwargs):
+        profile = request.user
+        regions = Region.objects.all()
+        context = {
+            'profile': profile,
+            'regions': regions
+        }
+        return render(request, 'location/profile.html', context)
