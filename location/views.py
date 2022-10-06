@@ -17,6 +17,7 @@ class ListPostView(ListView):
         context = {
             'posts': locations,
             'regions': regions,
+            'user': request.user
         }
         return render(request, 'location/all_posts.html', context)
 

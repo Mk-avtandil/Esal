@@ -25,17 +25,20 @@ def register_page(request):
 
 def login_page(request):
     if request.user.is_authenticated:
-        return redirect('index')
+        return redirect('posts')
     else:
         if request.method == 'POST':
-            email = request.POST.get('email')
-            password = request.POST.get('password')
+            # print(request.POST)
+            username = request.POST.get('username')
+            password = request.POST.get('password')  
+            print(username)
+            print(password)   
 
-            user = authenticate(request, email=email, password=password)
-
+            user = authenticate(request, username=username, password=password)
+            print(user)
             if user is not None:
                 login(request, user)
-                return redirect('dummy_index')
+                return redirect('posts')
             else:
                 messages.info(request, 'Username OR password is incorrect')
 
