@@ -39,9 +39,10 @@
 
             <ul class="navbar-nav mx-2">
                 {% if request.user.is_authenticated %}
-                    <li><a class="btn btn-outline-primary text-light" href="#">LOGOUT</a></li>
+                    <li><a class="btn btn-outline-primary text-light" href="{% url 'logout' %}">LOGOUT</a></li>
+                    <li><a class="btn btn-outline-primary mx-2 text-light" href="">+</a></li>
                 {% else %}
-                    <li><a class="btn btn-outline-primary text-light" href="#">LOGIN</a></li>
+                    <li><a class="btn btn-outline-primary text-light" href="{% url 'login' %}">LOGIN</a></li>
                 {% endif %}
             </ul>
         </div>

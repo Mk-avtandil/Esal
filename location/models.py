@@ -32,6 +32,7 @@ class Location(models.Model):
     description = models.TextField()
     leisure = models.ForeignKey(Leisure, on_delete=models.CASCADE, related_name='location')
     difficulty = models.CharField(choices=DIFFICULTY, max_length=10)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
         return self.title

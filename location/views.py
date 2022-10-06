@@ -6,11 +6,14 @@ from django.db.models import Value, Avg
 from location.models import Location, Region, Leisure, Image
 
 
-
 class ListPostView(ListView):
     def get(self, request, *args, **kwargs):
         locations = Location.objects.all()
         regions = Region.objects.all()
+
+        for location in locations:
+            location.images = location.image.all()
+
         context = {
             'posts': locations,
             'regions': regions,
@@ -21,12 +24,18 @@ class ListPostView(ListView):
 class ListLocationView(ListView):
     def get(self, request, *args, **kwargs):
         locations = Location.objects.all()
+        new_locations = Location.objects.all().order_by('-created_at')[:3]
+        regions = Region.objects.all()
+
+        for i in new_locations:
+            i.images = i.image.all()
+
         for location in locations:
             location.images = location.image.all()
-        regions = Region.objects.all()
         context = {
             'locations': locations,
             'regions': regions,
+            'new_locations': new_locations
         }
         return render(request, 'location/index.html', context)
 
