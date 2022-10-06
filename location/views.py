@@ -1,9 +1,29 @@
 import itertools
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.views import View
+from django.views.generic import ListView, DetailView, FormView
 from django.db.models import Value, Avg
 
+from location.form import CreateLocationForm, CreateImageForm
 from location.models import Location, Region, Leisure, Image
+
+
+class CreatePostView(FormView, View):
+    def get(self, request, *args, **kwargs):
+        location_form = CreateLocationForm()
+        # image_form = CreateImageForm()
+        user = request.user
+        context = {
+            'user': user,
+            'location_form': location_form,
+            # 'image_form': image_form
+        }
+        return render(request, 'location/add_location.html', context)
+
+    def post(self, request, *args, **kwargs):
+        form = CreateLocationForm(request.POST)
+        if form.is_valid():
+            form.save()
 
 
 class ListPostView(ListView):
@@ -28,8 +48,8 @@ class ListLocationView(ListView):
         new_locations = Location.objects.all().order_by('-created_at')[:3]
         regions = Region.objects.all()
 
-        for i in new_locations:
-            i.images = i.image.all()
+        for location in new_locations:
+            location.images = location.image.all()
 
         for location in locations:
             location.images = location.image.all()

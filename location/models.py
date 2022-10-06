@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 
 DIFFICULTY = (
@@ -5,6 +6,8 @@ DIFFICULTY = (
     ('Medium', 'Medium'),
     ('Hard', 'Hard')
 )
+
+User = get_user_model()
 
 
 class Region(models.Model):
@@ -27,6 +30,7 @@ class Leisure(models.Model):
 
 
 class Location(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     region = models.ForeignKey(Region, on_delete=models.CASCADE, related_name='location')
     description = models.TextField()
@@ -44,3 +48,12 @@ class Image(models.Model):
 
     def __str__(self) -> str:
         return str(self.location)
+
+
+class Comment(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comment')
+    text = models.CharField(max_length=300)
+    location = models.ForeignKey(Location, on_delete=models.CASCADE, related_name='comment')
+
+    def __str__(self):
+        return str(self.author) + str(self.location)
