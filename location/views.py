@@ -1,4 +1,6 @@
 import itertools
+
+from django.contrib.auth import get_user_model
 from django.shortcuts import render
 from django.views import View
 from django.views.generic import ListView, DetailView, FormView
@@ -97,3 +99,14 @@ class DetailLeisureView(DetailView):
         }
 
         return render(request, 'location/lesure_detail.html', context)
+
+
+class Profile(DetailView):
+    def get(self, request, *args, **kwargs):
+        profile = request.user
+        regions = Region.objects.all()
+        context = {
+            'profile': profile,
+            'regions': regions
+        }
+        return render(request, 'location/profile.html', context)
