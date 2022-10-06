@@ -1,31 +1,34 @@
-import itertools
 
-from django.contrib.auth import get_user_model
 from django.shortcuts import render
-from django.views import View
-from django.views.generic import ListView, DetailView, FormView
-from django.db.models import Value, Avg
+from django.views.generic import ListView, DetailView, FormView, CreateView
+from django.urls import reverse_lazy
 
 from location.form import CreateLocationForm, CreateImageForm
 from location.models import Location, Region, Leisure, Image
 
 
-class CreatePostView(FormView, DetailView):
-    model = Location
+class CreatePostView(CreateView):
     form_class = CreateLocationForm
+    template_name = 'location/add_location.html'
+    success_url = reverse_lazy('posts')
 
-    def get(self, request, *args, **kwargs):
-        location_form = CreateLocationForm()
-        context = {
-            'location_form': location_form
-        }
-        print(location_form)
-        return render(request, 'location/add_location.html', context)
 
-    def post(self, request, *args, **kwargs):
-        print(request.POST)
-        print(request.FILES)
-        return render(request, 'location/add_location.html')
+# class CreatePostView(FormView, DetailView):
+#     model = Location
+#     form_class = CreateLocationForm
+#
+#     def get(self, request, *args, **kwargs):
+#         location_form = CreateLocationForm()
+#         context = {
+#             'location_form': location_form
+#         }
+#         print(location_form)
+#         return render(request, 'location/add_location.html', context)
+#
+#     def post(self, request, *args, **kwargs):
+#         print(request.POST)
+#         print(request.FILES)
+#         return render(request, 'location/add_location.html')
 
 
 class ListPostView(ListView):
