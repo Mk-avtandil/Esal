@@ -35,7 +35,7 @@ def login_page(request):
 
             if user is not None:
                 login(request, user)
-                return redirect('index')
+                return redirect('dummy_index')
             else:
                 messages.info(request, 'Username OR password is incorrect')
 
@@ -45,9 +45,12 @@ def login_page(request):
 
 def logout_page(request):
     logout(request)
-    return redirect('login')
+    return redirect('posts')
 
+
+def dummy_page(request):
+    return render(request, "account/dummy_index.html")
 
 def index(request):
     context = {}
-    return render(request, "account/dummy_index.html", context)
+    return render(request, "location/index.html", context)
