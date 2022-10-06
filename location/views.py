@@ -13,6 +13,7 @@ from location.models import Location, Region, Leisure, Image
 class CreatePostView(FormView, DetailView):
     model = Location
     form_class = CreateLocationForm
+
     def get(self, request, *args, **kwargs):
         location_form = CreateLocationForm()
         context = {
@@ -20,6 +21,12 @@ class CreatePostView(FormView, DetailView):
         }
         print(location_form)
         return render(request, 'location/add_location.html', context)
+
+    def post(self, request, *args, **kwargs):
+        print(request.POST)
+        print(request.FILES)
+        return render(request, 'location/add_location.html')
+
 
 class ListPostView(ListView):
     def get(self, request, *args, **kwargs):

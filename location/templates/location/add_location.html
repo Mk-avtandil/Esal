@@ -1,7 +1,7 @@
 {% extends "location/base.html" %}
 {% load static %}
 {% block page_content %}
-<form>
+<form action="" method="post" enctype="multipart/form-data">
   <div class="row">
     <div class="col-md-6">
       <div class="form-group">
@@ -27,7 +27,7 @@
         <label for="inputState">Difficulty</label>
         <select class="form-control">
           {% for difficulty in location_form.difficulty %}
-            <p>{{difficulty}}</p>
+            <option value={{difficulty}}>{{difficulty}}</option>
           {% endfor %}
         </select>
       </div>
@@ -39,26 +39,16 @@
           {% endfor %}
         </select>
       </div>
-      <div class="row">
-        <div class="control-group" id="fields">
-            <label class="control-label" for="field1">Nice Multiple Form Fields</label>
-            <div class="controls">
-                <form role="form" autocomplete="off">
-                    <div class="entry input-group col-xs-3">
-                        <input class="form-control" name="fields[]" type="text" placeholder="Type something" />
-                    	<span class="input-group-btn">
-                            <button class="btn btn-success btn-add" type="button">
-                                <span class="glyphicon glyphicon-plus"></span>
-                            </button>
-                        </span>
+      <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            Select Multiple Images
+                        </label>
+                        <div class="col-sm-9">
+                            <span class="btn btn-default btn-file">
+                                <input id="input-2" name="input2[]" type="file" class="file" multiple data-show-upload="true" data-show-caption="true">
+                            </span>
+                        </div>
                     </div>
-                </form>
-            <br>
-            <small>Press <span class="glyphicon glyphicon-plus gs"></span> to add another form field :)</small>
-            </div>
-        </div>
-	</div>
-
       <button type="submit" class="btn btn-dark w-100">POST</button>
     </div>
   </div>
