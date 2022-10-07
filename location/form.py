@@ -12,7 +12,7 @@ class CreateImageForm(forms.ModelForm):
 class CreateLocationForm(forms.ModelForm):
     class Meta:
         model = Location
-        fields = ['title', 'description', 'leisure', 'region', 'difficulty']
+        exclude = ['author']
 
         widgets = {
             'title': forms.TextInput(
@@ -22,5 +22,3 @@ class CreateLocationForm(forms.ModelForm):
                 attrs={'class': 'form-control'}
             )
         }
-
-

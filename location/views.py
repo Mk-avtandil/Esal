@@ -14,17 +14,28 @@ class CreatePostView(FormView, DetailView):
     model = Location
     form_class = CreateLocationForm
 
+
     def get(self, request, *args, **kwargs):
         location_form = CreateLocationForm()
+        user = request.user
         context = {
-            'location_form': location_form
+            'location_form': location_form,
+            'user': user
         }
-        print(location_form)
         return render(request, 'location/add_location.html', context)
 
     def post(self, request, *args, **kwargs):
-        print(request.POST)
-        print(request.FILES)
+        if request.user.is_authenticated:
+            form = CreateLocationForm(request.POST)
+            print(request.POST)
+            print(request.FILES)
+            if form.is_valid():
+                location = form.save(commit=False)
+                location.author = request.user
+                location.save()
+                for image in request.FILES.getlist('image'):
+                    Image.objects.create(image=image, location=location)
+            return render(request, 'location/add_location.html')
         return render(request, 'location/add_location.html')
 
 

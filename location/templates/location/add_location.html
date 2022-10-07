@@ -6,34 +6,34 @@
     <div class="col-md-6">
       <div class="form-group">
         <label for="title">Title</label>
-        <p>{{location_form.title}}</p>
+        <p id="title">{{location_form.title}}</p>
       </div>
       <div class="form-group">
         <label for="description">Description</label>
-        <p>{{location_form.description}}</p>
+        <p id="description">{{location_form.description}}</p>
       </div>
     </div>
 
     <div class="col-md-6">
       <div class="form-group">
-        <label for="inputState">Region</label>
-        <select id="inputState" class="form-control">
+        <label for="region">Region</label>
+        <select name="region" id="region" class="form-control">
           {% for region in location_form.region %}
             <p>{{region}}</p>
           {% endfor %}
         </select>
       </div>
       <div class="form-group">
-        <label for="inputState">Difficulty</label>
-        <select class="form-control">
+        <label for="difficulty">Difficulty</label>
+        <select name="difficulty" id="difficulty" class="form-control">
           {% for difficulty in location_form.difficulty %}
-            <option value={{difficulty}}>{{difficulty}}</option>
+            <p>{{difficulty}}</p>
           {% endfor %}
         </select>
       </div>
       <div class="form-group">
-        <label for="inputState">Leisure</label>
-        <select id="inputState" class="form-control">
+        <label for="leisure">Leisure</label>
+        <select name="leisure" id="leisure" class="form-control">
           {% for leisure in location_form.leisure %}
             <p>{{leisure}}</p>
           {% endfor %}
@@ -45,7 +45,7 @@
                         </label>
                         <div class="col-sm-9">
                             <span class="btn btn-default btn-file">
-                                <input id="input-2" name="input2[]" type="file" class="file" multiple data-show-upload="true" data-show-caption="true">
+                                <input id="image" name="image" type="file" class="file" multiple data-show-upload="true" data-show-caption="true">
                             </span>
                         </div>
                     </div>
