@@ -101,9 +101,14 @@ class DetailRegionView(DetailView):
 class DetailLeisureView(DetailView):
     def get(self, request, slug, *args, **kwargs):
         leisure = Leisure.objects.get(slug=slug)
+        locations = Location.objects.filter(leisure=leisure)
+
+        for location in locations:
+            location.images = location.image.all()
+
         context = {
             'leisure': leisure,
-            'locations': Location.objects.filter(leisure=leisure),
+            'locations': locations,
             'regions': Region.objects.all()
         }
 
