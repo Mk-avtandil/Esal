@@ -115,7 +115,6 @@ class DetailRegionView(DetailView):
 
 class DetailLeisureView(DetailView):
     def get(self, request, slug, *args, **kwargs):
-        form = Cre()
         leisure = Leisure.objects.get(slug=slug)
         locations = Location.objects.filter(leisure=leisure)
 
