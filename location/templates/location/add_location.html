@@ -7,37 +7,50 @@
 
     <div class="col-md-6">
       <div class="form-group">
-        <h5>Title</h5>
-        {{form.title}}
+        <label for="title">Title</label>
+        <p id="title">{{location_form.title}}</p>
       </div>
       <div class="form-group">
-        <h5>Description</h5>
-        {{form.description}}
+        <label for="description">Description</label>
+        <p id="description">{{location_form.description}}</p>
       </div>
     </div>
+        <label for="region">Region</label>
+        <select name="region" id="region" class="form-control">
+          {% for region in location_form.region %}
+            <p>{{region}}</p>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="difficulty">Difficulty</label>
+        <select name="difficulty" id="difficulty" class="form-control">
+          {% for difficulty in location_form.difficulty %}
+            <p>{{difficulty}}</p>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="leisure">Leisure</label>
+        <select name="leisure" id="leisure" class="form-control">
+          {% for leisure in location_form.leisure %}
+            <p>{{leisure}}</p>
+          {% endfor %}
+        </select>
+      </div>
 
-    <div class="col-md-6">
       <div class="form-group">
-        <h5>Region</h5>
-        {{form.region}}
-      </div>
-      <div class="form-group">
-        <h5>Difficulty</h5>
-        {{form.difficulty}}
-      </div>
-      <div class="form-group">
-        <h5>Leisure</h5>
-        {{form.leisure}}
-      </div>
 
-      <div class="form-group">
-        <h5>Select Multiple Images</h5>
-        <span class="btn btn-default btn-file">
-            <input id="input-2" name="images" type="file" class="file" multiple data-show-upload="true" data-show-caption="true">
-        </span>
-      </div>
-
-      <button type="submit" class="btn btn-primary w-100">POST</button>
+                        <label class="col-sm-3 control-label">
+                            Select Multiple Images
+                        </label>
+                        <div class="col-sm-9">
+                            <span class="btn btn-default btn-file">
+                                <input id="image" name="image" type="file" class="file" multiple data-show-upload="true" data-show-caption="true">
+                            </span>
+                        </div>
+                    </div>
+      <button type="submit" class="btn btn-dark w-100">POST</button>
     </div>
   </div>
 </form>
