@@ -54,6 +54,7 @@ def logout_page(request):
 def dummy_page(request):
     return render(request, "account/dummy_index.html")
 
+
 def index(request):
     context = {}
     return render(request, "location/index.html", context)

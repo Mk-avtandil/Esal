@@ -1,20 +1,11 @@
-import itertools
-
-from django.contrib.auth import get_user_model
 from django.shortcuts import render
-from django.views import View
-from django.views.generic import ListView, DetailView, FormView
-from django.db.models import Value, Avg
+from django.views.generic import ListView, DetailView, CreateView
 
 from location.form import CreateLocationForm, CreateImageForm
 from location.models import Location, Region, Leisure, Image
 
 
-class CreatePostView(FormView, DetailView):
-    model = Location
-    form_class = CreateLocationForm
-
-
+class CreatePostView(CreateView):
     def get(self, request, *args, **kwargs):
         location_form = CreateLocationForm()
         user = request.user
@@ -27,15 +18,13 @@ class CreatePostView(FormView, DetailView):
     def post(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             form = CreateLocationForm(request.POST)
-            print(request.POST)
-            print(request.FILES)
             if form.is_valid():
                 location = form.save(commit=False)
                 location.author = request.user
                 location.save()
                 for image in request.FILES.getlist('image'):
                     Image.objects.create(image=image, location=location)
-            return render(request, 'location/add_location.html')
+            return ListLocationView.get(request, *args, **kwargs)
         return render(request, 'location/add_location.html')
 
 
@@ -56,7 +45,9 @@ class ListPostView(ListView):
 
 
 class ListLocationView(ListView):
-    def get(self, request, *args, **kwargs):
+
+    @staticmethod
+    def get(request, *args, **kwargs):
         locations = Location.objects.all()
         new_locations = Location.objects.all().order_by('-created_at')[:3]
         regions = Region.objects.all()
@@ -91,10 +82,14 @@ class DetailLocationView(DetailView):
 class DetailRegionView(DetailView):
     def get(self, request, slug, *args, **kwargs):
         region = Region.objects.get(slug=slug)
+        locations = Location.objects.filter(region=region)
+
+        for location in locations:
+            location.images = location.image.all()
         context = {
             'region': region,
             'regions': Region.objects.all(),
-            'location': Location.objects.filter(region=region)
+            'location': locations
         }
 
         return render(request, 'location/detail_region.html', context)
