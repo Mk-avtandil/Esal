@@ -1,10 +1,8 @@
 import itertools
 
-from django.contrib.auth import get_user_model
+
 from django.shortcuts import render
-from django.views import View
 from django.views.generic import ListView, DetailView, FormView
-from django.db.models import Value, Avg
 
 from location.form import CreateLocationForm, CreateImageForm
 from location.models import Location, Region, Leisure, Image
