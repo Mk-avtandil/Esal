@@ -20,5 +20,14 @@ class CreateLocationForm(forms.ModelForm):
             ),
             'description': forms.Textarea(
                 attrs={'class': 'form-control'}
-            )
+            ),
+            'leisure': forms.Select(
+                attrs={'class': 'form-control'}
+            ),
+            'region': forms.Select(
+                attrs={'class': 'form-control'}
+            ),
+            'difficulty': forms.Select(
+                attrs={'class': 'form-control'}
+            ),
         }
