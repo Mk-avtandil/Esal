@@ -1,30 +1,33 @@
 import itertools
 
-from django.contrib.auth import get_user_model
+
 from django.shortcuts import render
-from django.views import View
-from django.views.generic import ListView, DetailView, FormView
-from django.db.models import Value, Avg
+from django.views.generic import ListView, DetailView, CreateView
 
-from location.form import CreateLocationForm, CreateImageForm
-from location.models import Location, Region, Leisure, Image
+from location.forms import CreateLocationForm, CreateCommentForm
+from location.models import Location, Region, Leisure, Image, Comment
 
 
-class CreatePostView(FormView, DetailView):
-    model = Location
-    form_class = CreateLocationForm
-
+class CreatePostView(CreateView):
     def get(self, request, *args, **kwargs):
         location_form = CreateLocationForm()
+        user = request.user
         context = {
-            'location_form': location_form
+            'location_form': location_form,
+            'user': user
         }
-        print(location_form)
         return render(request, 'location/add_location.html', context)
 
     def post(self, request, *args, **kwargs):
-        print(request.POST)
-        print(request.FILES)
+        if request.user.is_authenticated:
+            form = CreateLocationForm(request.POST)
+            if form.is_valid():
+                location = form.save(commit=False)
+                location.author = request.user
+                location.save()
+                for image in request.FILES.getlist('image'):
+                    Image.objects.create(image=image, location=location)
+            return ListLocationView.get(request, *args, **kwargs)
         return render(request, 'location/add_location.html')
 
 
@@ -45,7 +48,8 @@ class ListPostView(ListView):
 
 
 class ListLocationView(ListView):
-    def get(self, request, *args, **kwargs):
+    @staticmethod
+    def get(request, *args, **kwargs):
         locations = Location.objects.all()
         new_locations = Location.objects.all().order_by('-created_at')[:3]
         regions = Region.objects.all()
@@ -64,14 +68,30 @@ class ListLocationView(ListView):
 
 
 class DetailLocationView(DetailView):
+    def post(self, request, pk):
+        location = Location.objects.get(pk=pk)
+        if request.method == 'POST':
+            form = CreateCommentForm(request.POST)
+            if form.is_valid():
+                comment = Comment(
+                    author=request.user,
+                    text=form.cleaned_data["text"],
+                    location=location
+                )
+                comment.save()
+        return self.get(request, pk)
+
     def get(self, request, pk, *args, **kwargs):
         location = Location.objects.get(id=pk)
+        form = CreateCommentForm()
         context = {
+            'form': form,
             'location': location,
             'regions': Region.objects.all(),
             'region': Region.objects.get(location=location),
             'leisure': Leisure.objects.get(location=location),
-            'images': Image.objects.filter(location=location)
+            'images': Image.objects.filter(location=location),
+            'comments': Comment.objects.filter(location=location)
         }
 
         return render(request, 'location/detail.html', context)
@@ -80,10 +100,14 @@ class DetailLocationView(DetailView):
 class DetailRegionView(DetailView):
     def get(self, request, slug, *args, **kwargs):
         region = Region.objects.get(slug=slug)
+        locations = Location.objects.filter(region=region)
+
+        for location in locations:
+            location.images = location.image.all()
         context = {
             'region': region,
             'regions': Region.objects.all(),
-            'location': Location.objects.filter(region=region)
+            'location': locations
         }
 
         return render(request, 'location/detail_region.html', context)
@@ -91,10 +115,16 @@ class DetailRegionView(DetailView):
 
 class DetailLeisureView(DetailView):
     def get(self, request, slug, *args, **kwargs):
+        form = Cre()
         leisure = Leisure.objects.get(slug=slug)
+        locations = Location.objects.filter(leisure=leisure)
+
+        for location in locations:
+            location.images = location.image.all()
+
         context = {
             'leisure': leisure,
-            'locations': Location.objects.filter(leisure=leisure),
+            'locations': locations,
             'regions': Region.objects.all()
         }
 

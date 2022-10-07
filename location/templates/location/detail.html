@@ -42,4 +42,26 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="col-md-12 my-2">
+        <h3>COMMENTS</h3>
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{form.text}}
+            <button type="submit" class="btn btn-dark mt-3">POST</button>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        {% for comment in comments %}
+        <div class="alert text-dark border-left border-bottom border-muted" role="alert">
+          <p class="alert-heading">@{{ comment.author }}</p>
+          <p>{{ comment.text }}</p>
+          <small class="text-secondary">{{ comment.created_at }}</small>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
 {% endblock %}
